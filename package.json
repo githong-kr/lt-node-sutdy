@@ -1,13 +1,27 @@
 {
   "name": "lt-node",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "node study",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "gulp dev",
     "start": "node src/app.js"
   },
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/githong-kr/lt-node-sutdy.git"
+  },
+  "author": "bale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/githong-kr/lt-node-sutdy/issues"
+  },
+  "homepage": "https://github.com/githong-kr/lt-node-sutdy#readme",
+  "dependencies": {
+    "gulp-nodemon": "^2.5.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
 }
