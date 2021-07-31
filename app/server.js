@@ -1,29 +1,38 @@
 "use export";
 
-import express from 'express'
-const app = express()
+// official
+import express from 'express';
+import dotenv from 'dotenv';
 
-import * as advice from './src/js/advice.js'
+// non-official
+import * as advice from './src/js/advice.js';
+
+// variable
+const PORT = process.env.PORT || 4001;
+const app = express();
 
 export default class Server {
   constructor() {
-    console.log('server setting start')
+    console.log('Server setting start...');
 
-    app.use(advice.allAround)
+    dotenv.config();
+
+    app.use(advice.allAround);
+
     app.get('/', (req,res) => {
       res.json(`alive with ${process.env.NODE_ENV}`)
     })
 
     app.get('/test', (req, res) => {
-      console.log('/test start')
-      res.json(`good job`)
+      console.log('/test start');
+      res.json(`Good Job!`);
     })
 
+    console.log('Server setting end...');
   }
 
   start() {
-    let port = process.env.PORT || 4001
-    console.log(`server start port: ${port}`)
-    return app.listen(port)
+    console.log(`server start port: ${PORT}`);
+    return app.listen(PORT);
   }
 }
