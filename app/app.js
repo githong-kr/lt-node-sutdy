@@ -1,5 +1,6 @@
 "use strict";
 
 // non-official
-import { server } from './server.js';
-server.start();
+import Server from './server.js';
+console.log('app start');
+new Server().start();

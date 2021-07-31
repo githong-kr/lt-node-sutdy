@@ -1,34 +1,29 @@
-"use strict";
+"use export";
 
-// official
-import express from 'express';
-const app = express();
+import express from 'express'
+const app = express()
 
-// non-official
-import { myDate } from './src/js/date.js';
 import * as advice from './src/js/advice.js'
 
-const PORT = process.env.PORT || 4001;
+export default class Server {
+  constructor() {
+    console.log('server setting start')
 
-const server = {
-    constructor: () => {
-        console.log('Server setting start..');
+    app.use(advice.allAround)
+    app.get('/', (req,res) => {
+      res.json(`alive with ${process.env.NODE_ENV}`)
+    })
 
-        app.use(advice.allAround);
-        app.get('/', (req, res) => {
-            res.json(`alive with ${process.env.NODE_ENV}`);
-        })
+    app.get('/test', (req, res) => {
+      console.log('/test start')
+      res.json(`good job`)
+    })
 
-        app.get('/test', (req, res) => {
-            console.log('/test start');
-            res.json(`Good Job!`);
-        })
-    },
+  }
 
-    start: () => {
-        console.log(`Server start port: ${PORT}`);
-        return app.listen(PORT);
-    }
+  start() {
+    let port = process.env.PORT || 4001
+    console.log(`server start port: ${port}`)
+    return app.listen(port)
+  }
 }
-
-export { server }
