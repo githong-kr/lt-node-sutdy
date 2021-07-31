@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "dev": "gulp dev",
-    "start": "node src/app.js"
+    "dev": "gulp",
+    "start": "node src/js/app.js"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,22 @@
   },
   "homepage": "https://github.com/githong-kr/lt-node-sutdy#readme",
   "dependencies": {
-    "gulp-nodemon": "^2.5.0"
+    "babel-eslint": "^10.1.0",
+    "dotenv": "^10.0.0",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-util": "^3.0.8"
   },
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "@babel/register": "^7.14.5",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2016": "^6.24.1",
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-uglify": "^3.0.2"
   }
 }
