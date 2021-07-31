@@ -5,7 +5,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 // non-official
-import * as advice from './src/js/advice.js';
+import * as advice from './common/advice.js';
+import * as home from '../routes/home/index.js';
 
 // variable
 const PORT = process.env.PORT || 4001;
@@ -18,15 +19,7 @@ export default class Server {
     dotenv.config();
 
     app.use(advice.allAround);
-
-    app.get('/', (req,res) => {
-      res.json(`alive with ${process.env.NODE_ENV}`)
-    })
-
-    app.get('/test', (req, res) => {
-      console.log('/test start');
-      res.json(`Good Job!`);
-    })
+    app.use('/', home.router); 
 
     console.log('Server setting end...');
   }

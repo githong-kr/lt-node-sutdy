@@ -15,17 +15,19 @@ const DIR = {
 };
 
 const SRC = {
-    JS: `${DIR.SRC}/js/*`,
-    CSS: `${DIR.SRC}/css/*`,
-    HTML: `${DIR.SRC}/*.html`,
-    IMAGES: `${DIR.SRC}/images/*`
+    BIN: `${DIR.SRC}/bin/**`,
+    JS: `${DIR.SRC}/views/static/js/*`,
+    CSS: `${DIR.SRC}/views/static/css/*`,
+    IMAGES: `${DIR.SRC}/views/static/images/*`,
+    TEMPLATES: `${DIR.SRC}/views/templates/*`
 };
 
 const DEST = {
-    JS: `${DIR.DEST}/js`,
-    CSS: `${DIR.DEST}/css`,
-    HTML: `${DIR.DEST}/`,
-    IMAGES: `${DIR.DEST}/images`
+    BIN: `${DIR.DEST}/bin`,
+    JS: `${DIR.DEST}/views/static/js`,
+    CSS: `${DIR.DEST}/views/static/css`,
+    IMAGES: `${DIR.DEST}/views/static/images`,
+    TEMPLATES: `${DIR.DEST}/views/templates`
 }
 
 // minify javascript
@@ -44,9 +46,9 @@ gulp.task('css', async () => {
 
 // minify html
 gulp.task('html', async () => {
-    return gulp.src(SRC.HTML, { sourcemaps: true })
+    return gulp.src(SRC.TEMPLATES, { sourcemaps: true })
           .pipe(htmlmin({collapseWhitespace: true}))
-          .pipe(gulp.dest(DEST.HTML))
+          .pipe(gulp.dest(DEST.TEMPLATES))
 });
 
 // compress images
@@ -66,11 +68,12 @@ gulp.task('watch', () => {
     
     // file changed logging
     let watcher = {
-        js: gulp.watch(SRC.JS, gulp.series(['js', 'nodemon'])),
-        css: gulp.watch(SRC.CSS, gulp.series(['css', 'nodemon'])),
-        html: gulp.watch(SRC.HTML, gulp.series(['html', 'nodemon'])),
-        images: gulp.watch(SRC.IMAGES, gulp.series(['images', 'nodemon'])),
-        app: gulp.watch('app.js', gulp.series(['nodemon']))
+        js: gulp.watch(SRC.JS, gulp.series(['js'])),
+        css: gulp.watch(SRC.CSS, gulp.series(['css'])),
+        html: gulp.watch(SRC.TEMPLATES, gulp.series(['html'])),
+        images: gulp.watch(SRC.IMAGES, gulp.series(['images'])),
+        bin: gulp.watch(SRC.BIN),
+        app: gulp.watch('app.js')
     };
 
     let changeNotify = event => {
@@ -80,22 +83,20 @@ gulp.task('watch', () => {
     for(let key in watcher) {
         watcher[key].on('change', changeNotify);
     }
-});
 
-gulp.task('nodemon', () => {
     // restart
     let stream = nodemon({
         script: `app.js`,
-        watch: ['app.js', SRC.JS]
+        watch: ['app.js', SRC.BIN, SRC.JS, SRC.TEMPLATES]
     });
 
     return stream;
-})
+});
 
 gulp.task('build', gulp.series(['clean', 'js', 'css', 'html', 'images']), () => {
     return gutil.log(`Gulp build success`);
 })
 
-gulp.task('default', gulp.series(['build', 'nodemon', 'watch']), async () => {
+gulp.task('default', gulp.series(['build', 'watch']), async () => {
     return gutil.log('Gulp is running!');
 });
