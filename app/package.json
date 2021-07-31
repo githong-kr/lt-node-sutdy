@@ -22,7 +22,8 @@
     "babel-eslint": "^10.1.0",
     "dotenv": "^10.0.0",
     "gulp-nodemon": "^2.5.0",
-    "gulp-util": "^3.0.8"
+    "gulp-util": "^3.0.8",
+    "moment": "^2.29.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",

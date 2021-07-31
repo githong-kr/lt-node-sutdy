@@ -15,8 +15,8 @@ const DIR = {
 };
 
 const SRC = {
-    JS: `${DIR.SRC}/js/*.js`,
-    CSS: `${DIR.SRC}/css/*.css`,
+    JS: `${DIR.SRC}/js/*`,
+    CSS: `${DIR.SRC}/css/*`,
     HTML: `${DIR.SRC}/*.html`,
     IMAGES: `${DIR.SRC}/images/*`
 };
@@ -96,6 +96,6 @@ gulp.task('build', gulp.series(['clean', 'js', 'css', 'html', 'images']), () => 
     return gutil.log(`Gulp build success`);
 })
 
-gulp.task('default', gulp.series(['build', 'watch']), async () => {
+gulp.task('default', gulp.series(['build', 'nodemon', 'watch']), async () => {
     return gutil.log('Gulp is running!');
 });
