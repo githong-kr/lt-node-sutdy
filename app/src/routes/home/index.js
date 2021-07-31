@@ -8,8 +8,8 @@ import * as ctrl from './home.ctrl.js';
 
 const router = express.Router();
 
-router.get('/', ctrl.hello);
+router.get('/', ctrl.output.hello);
 
-router.get('/test', ctrl.test);
+router.get('/test', ctrl.output.test);
 
 export { router }
