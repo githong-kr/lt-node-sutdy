@@ -66,10 +66,11 @@ gulp.task('watch', () => {
     
     // file changed logging
     let watcher = {
-        js: gulp.watch(SRC.JS, gulp.series(['js'])),
-        css: gulp.watch(SRC.CSS, gulp.series(['css'])),
-        html: gulp.watch(SRC.HTML, gulp.series(['html'])),
-        images: gulp.watch(SRC.IMAGES, gulp.series(['images']))
+        js: gulp.watch(SRC.JS, gulp.series(['js', 'nodemon'])),
+        css: gulp.watch(SRC.CSS, gulp.series(['css', 'nodemon'])),
+        html: gulp.watch(SRC.HTML, gulp.series(['html', 'nodemon'])),
+        images: gulp.watch(SRC.IMAGES, gulp.series(['images', 'nodemon'])),
+        app: gulp.watch('app.js', gulp.series(['nodemon']))
     };
 
     let changeNotify = event => {
@@ -79,15 +80,17 @@ gulp.task('watch', () => {
     for(let key in watcher) {
         watcher[key].on('change', changeNotify);
     }
+});
 
+gulp.task('nodemon', () => {
     // restart
     let stream = nodemon({
-        script: `${DEST.JS}/app.js`,
-        watch: SRC.JS
+        script: `app.js`,
+        watch: ['app.js', SRC.JS]
     });
 
     return stream;
-});
+})
 
 gulp.task('build', gulp.series(['clean', 'js', 'css', 'html', 'images']), () => {
     return gutil.log(`Gulp build success`);

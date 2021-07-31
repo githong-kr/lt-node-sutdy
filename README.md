@@ -10,3 +10,6 @@
 
 - ## 03.es6
 - install babelify
+
+- ## 04.url
+- split urls

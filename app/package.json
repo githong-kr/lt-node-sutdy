@@ -2,11 +2,11 @@
   "name": "lt-node",
   "version": "1.0.0",
   "description": "node study",
-  "main": "src/app.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
     "dev": "gulp",
-    "start": "node src/js/app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
