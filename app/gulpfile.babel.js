@@ -7,7 +7,10 @@ import cleanCSS from 'gulp-clean-css';
 import htmlmin from 'gulp-htmlmin';
 import imagemin from 'gulp-imagemin';
 import nodemon from 'gulp-nodemon';
+import bs from 'browser-sync';
 import del from 'del';
+
+const browserSync = bs.create();
 
 const DIR = {
     SRC: 'src',
@@ -15,7 +18,6 @@ const DIR = {
 };
 
 const SRC = {
-    BIN: `${DIR.SRC}/bin/**`,
     JS: `${DIR.SRC}/views/static/js/*`,
     CSS: `${DIR.SRC}/views/static/css/*`,
     IMAGES: `${DIR.SRC}/views/static/images/*`,
@@ -23,7 +25,6 @@ const SRC = {
 };
 
 const DEST = {
-    BIN: `${DIR.DEST}/bin`,
     JS: `${DIR.DEST}/views/static/js`,
     CSS: `${DIR.DEST}/views/static/css`,
     IMAGES: `${DIR.DEST}/views/static/images`,
@@ -65,29 +66,37 @@ gulp.task('clean', async () => {
 
 // file changed logging && restart
 gulp.task('watch', () => {
-    
+
+    browserSync.init({
+        proxy: 'localhost:4001',
+        reloadDelay: 1000,
+    });
+
     // file changed logging
     let watcher = {
         js: gulp.watch(SRC.JS, gulp.series(['js'])),
         css: gulp.watch(SRC.CSS, gulp.series(['css'])),
         html: gulp.watch(SRC.TEMPLATES, gulp.series(['html'])),
         images: gulp.watch(SRC.IMAGES, gulp.series(['images'])),
-        bin: gulp.watch(SRC.BIN),
+        src: gulp.watch('./src/**'),
         app: gulp.watch('app.js')
     };
 
     let changeNotify = event => {
-        gutil.log(`File : ${gutil.colors.yellow(event)}, was changed`);
+        gutil.log(`File : ${gutil.colors.yellow(event)} was changed`);
+        browserSync.reload();
     };
 
     for(let key in watcher) {
-        watcher[key].on('change', changeNotify);
+        if(key === 'src' || key === 'app') {
+            watcher[key].on('change', changeNotify);
+        }
     }
 
     // restart
     let stream = nodemon({
         script: `app.js`,
-        watch: ['app.js', SRC.BIN, SRC.JS, SRC.TEMPLATES]
+        watch: ['app.js', './src/**']
     });
 
     return stream;
@@ -98,5 +107,7 @@ gulp.task('build', gulp.series(['clean', 'js', 'css', 'html', 'images']), () => 
 })
 
 gulp.task('default', gulp.series(['build', 'watch']), async () => {
+    
     return gutil.log('Gulp is running!');
+    
 });

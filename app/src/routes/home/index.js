@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // official
 import express from 'express';
@@ -12,4 +12,4 @@ router.get('/', ctrl.output.hello);
 
 router.get('/test', ctrl.output.test);
 
-export { router }
+export { router };

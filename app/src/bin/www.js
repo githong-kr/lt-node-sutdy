@@ -1,12 +1,14 @@
-"use export";
+'use export';
 
 // official
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // non-official
 import * as advice from './common/advice.js';
 import * as home from '../routes/home/index.js';
+import * as todo from '../routes/todo/todo.js';
 
 // variable
 const PORT = process.env.PORT || 4001;
@@ -18,8 +20,12 @@ export default class Server {
 
     dotenv.config();
 
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(cors());
     app.use(advice.allAround);
-    app.use('/', home.router); 
+    app.use('/', home.router);
+    app.use('/', todo.router);
 
     console.log('Server setting end...');
   }
